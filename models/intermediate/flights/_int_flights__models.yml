@@ -1,0 +1,30 @@
+models:
+  - name: fact_bookings
+    description: Факты бронирований
+    latest_version: 1
+    versions:
+      - v: 1
+    config:
+      contract: {enforced: true}
+      docs:
+        show: true
+        node_color: red
+    meta:
+      owner: "email@example.com"
+    # constraints:
+    columns:
+      - name: book_ref
+        data_type: varchar(8)
+        constraints:
+          - type: not_null
+      - name: book_date
+        data_type: timestamptz
+      - name: total_amount
+        data_type: numeric(10, 2)
+        constraints:
+          - type: check
+            expression: "total_amount > 0"
+        tests:
+          - not_null
+        meta:
+          owner: "finance"

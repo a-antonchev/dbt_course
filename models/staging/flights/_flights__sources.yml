@@ -1,0 +1,38 @@
+sources:
+  - name: demo_src
+    database: dwh_flight
+    schema: demo_src
+    description: Данные из БД авиаперелетов
+    tables:
+      - name: aircrafts
+        description: Модели самолетов
+        columns:
+          - name: aircraft_code
+            description: Код самолета
+          - name: model
+            description: Модель самолета
+          - name: range
+            description: unknown
+      - name: airports
+        description: Аэропорты
+      - name: seats
+        description: Места в самолетах
+      - name: bookings
+        description: Бронирования
+        columns:
+        - name: book_ref
+        - name: book_date
+        - name: total_amount
+        freshness:
+          warn_after:
+            count: 600000
+            period: hour
+          error_after:
+            count: 10000
+            period: day
+          filter: current_timestamp::date - book_date::date < 30000
+        loaded_at_field: book_date::timestamp
+      - name: flights
+      - name: ticket_flights
+      - name: boarding_passes
+      - name: tickets
